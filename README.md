@@ -9,7 +9,7 @@ Chris Davis, chriscodinghub
 ## I would like to start with a list of things I learned on this project.
 <ul>
     <li>I learned how to fetch and return data from third party API's</li> 
-    <li>I leanred how to traverse the returned data to extract desired information</li>
+    <li>I learned how to traverse the returned data to extract desired information</li>
     <li>I learned how to store data within dynamically created html for recalling later</li>
     <li>I learned how to extract img icons and update them dynamically</li>
     

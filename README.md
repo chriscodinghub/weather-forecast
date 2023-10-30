@@ -58,7 +58,7 @@ Chris Davis, chriscodinghub
 
 https://chriscodinghub.github.io/weather-forecast/
 
-[Link Text](https://chriscodinghub.github.io/weather-forecast/){:target="_blank"}
+[Link to Weather-Forecast app](https://chriscodinghub.github.io/weather-forecast/){:target="_blank" rel="noopener"}
 
 ## Date
 

@@ -17,7 +17,7 @@ function getGeoCode1(){
     var city = document.getElementById('city-code').value;
     var state = document.getElementById('state-code').value;
     var country = document.getElementById('country-code').value;
-    var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&limit=1&appid=${keyID}`
+    var geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&limit=1&appid=${keyID}`
     
     fetch(geoURL)
     .then(function(response){
@@ -64,7 +64,7 @@ function dailyWeather(lat, lon, city, state){
         // console.log(data.dt); // Check the value of data.weather[0].icon
 
 
-        var iconURL = `http://openweathermap.org/img/w/${iconCode}.png`
+        var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`
                 
         var card = document.createElement('div');
         card.classList.add('row');
@@ -92,7 +92,7 @@ function getGeoCode7(){
     var city = document.getElementById('city-code').value;
     var state = document.getElementById('state-code').value;
     var country = document.getElementById('country-code').value;
-    var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&cnt=7&appid=${keyID}`
+    var geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&cnt=7&appid=${keyID}`
     
     
     fetch(geoURL)

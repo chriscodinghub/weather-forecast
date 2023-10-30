@@ -27,7 +27,7 @@ function getGeoCode1(){
         // console.log(data)
         lat = data[0].lat
         lon = data[0].lon
-        console.log(lat, lon, city, state)
+        // console.log(lat, lon, city, state)
         dailyWeather(lat, lon, city, state)
         dailyAddCityToLocalStorage()
     })
@@ -59,9 +59,9 @@ function dailyWeather(lat, lon, city, state){
         var capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
         var formattedDate = `${month}/${dateNumeric}/${yearNumeric} (${dateAlphabetic})`;
         
-        console.log(data); // Check the structure of the data object
-        console.log(data.weather); // Check the value of data.weather
-        console.log(data.dt); // Check the value of data.weather[0].icon
+        // console.log(data); // Check the structure of the data object
+        // console.log(data.weather); // Check the value of data.weather
+        // console.log(data.dt); // Check the value of data.weather[0].icon
 
 
         var iconURL = `http://openweathermap.org/img/w/${iconCode}.png`
@@ -103,7 +103,7 @@ function getGeoCode7(){
         // console.log(data)
         lat = data[0].lat
         lon = data[0].lon
-        console.log(lat, lon, city, state)
+        // console.log(lat, lon, city, state)
         forecastWeather(lat, lon, city, state)
         forecastAddCityToLocalStorage()
     })
@@ -135,7 +135,7 @@ function forecastWeather(lat, lon, city, state){
         filteredForecastList.forEach(function(forecast){
        
             var sunriseTimestamp = forecast.dt;
-            console.log(forecast)
+            // console.log(forecast)
             var sunriseDate = new Date(sunriseTimestamp * 1000);
             var month = sunriseDate.toLocaleDateString("en-US", { month: "numeric" });
             var dateNumeric = sunriseDate.toLocaleDateString("en-US", { day: "numeric" });

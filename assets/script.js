@@ -271,4 +271,7 @@ function loadCityHistory() {
 
 
 OneDayBtn.addEventListener('click', getGeoCode1)
+// attempting to make this cellphone functional
+OneDayBtn.addEventListener('touchstart', getGeoCode1);
 SevenDayBtn.addEventListener('click', getGeoCode7)
+SevenDayBtn.addEventListener('touchstart', getGeoCode7)

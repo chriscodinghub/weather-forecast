@@ -58,6 +58,8 @@ Chris Davis, chriscodinghub
 
 https://chriscodinghub.github.io/weather-forecast/
 
+[Link Text](https://chriscodinghub.github.io/weather-forecast/){:target="_blank"}
+
 ## Date
 
 10/30/2023

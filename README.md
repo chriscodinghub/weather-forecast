@@ -28,17 +28,29 @@ Chris Davis, chriscodinghub
 ## Future improvements/updates
 <ul>
     <li>I was unable to have the localstorage store state and country data without breaking, so the recalled data just makes those feilds blank on recall searches</li>
-    <li>I would like to make this app function on cellphone clicks, the eventlisteners dont seem to be responsive on cellphones.</li>
+    <li>*UPDATE* when launched page threw errors because some embedded HTTPS: were incorrectly written as HTTP:</li>
+    <li>App now works as intended for cellphone use as well as computer.</li>
 </ul>
 
 ## Images showcasing features on my app
 
+![weather-forecast-home](https://github.com/chriscodinghub/weather-forecast/assets/144561170/42f4f7de-3d15-45c1-8c3a-750eca432eb3)
 
 <br>
 
+![weather-forecast-todays-weather](https://github.com/chriscodinghub/weather-forecast/assets/144561170/878c16c7-ce35-43b5-8d4c-6867c174c722)
 
 <br>
 
+![weather-forecast-fiveDay-weather1](https://github.com/chriscodinghub/weather-forecast/assets/144561170/7dc20675-8958-4aef-9e1b-6c01dfbda59f)
+
+<br>
+
+![weather-forecast-fiveDay-weather2](https://github.com/chriscodinghub/weather-forecast/assets/144561170/6bf9749a-2cbf-4a66-89f3-8e003e733591)
+
+<br>
+
+![weather-forecast-localstorage](https://github.com/chriscodinghub/weather-forecast/assets/144561170/43cbe70c-c7cb-4915-8a7e-8d21ee41a1e3)
 
 <br>
 

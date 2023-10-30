@@ -56,26 +56,34 @@ function dailyWeather(lat, lon, city, state){
         var dateAlphabetic = sunriseDate.toLocaleDateString("en-US", { weekday: "long" });
         var iconCode = data.weather[0].icon;
         var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`
-
+        var capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
         var formattedDate = `${month}/${dateNumeric}/${yearNumeric} (${dateAlphabetic})`;
         
         console.log(data); // Check the structure of the data object
         console.log(data.weather); // Check the value of data.weather
-        console.log(data.weather[0].icon); // Check the value of data.weather[0].icon
+        console.log(data.dt); // Check the value of data.weather[0].icon
 
 
         var iconURL = `http://openweathermap.org/img/w/${iconCode}.png`
                 
-            var card = document.createElement('div');
-                card.classList.add('card');
-                card.innerHTML = `
-                    <div class="card-body bg-info bg-gradient">
-                     <img src="${iconURL}"/>
-                    <h3 class="card-make">${city}, ${state}, Date: ${formattedDate}</h3>
-                    <h4 class="card-subtitle mb-2 text-body-secondary">Temperature: ${data.main.temp}°F, Weather: ${data.weather[0].description}, Wind Speed: ${data.wind.speed} mph</h4>
-                    <p class="card-text">Humidity: ${data.main.humidity}%</p>
-                    </div>
-                    `;
+        var card = document.createElement('div');
+        card.classList.add('row');
+        card.classList.add('col-sm-12')
+        card.innerHTML =
+            `<div class="col-sm-12">
+            <div class="card">
+              <div class="card-body bg-info bg-gradient">
+                <h5 class="card-title">${capitalizedCity}, Date: ${formattedDate}</h5>
+                <img src="${iconURL}"/>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Temperature: ${data.main.temp}°F</li>
+                  <li class="list-group-item">Weather: ${data.weather[0].description}</li>
+                  <li class="list-group-item">Wind Speed: ${data.wind.speed} mph</li>
+                  <li class="list-group-item">Humidity: ${data.main.humidity}%</li>
+                </ul>
+              </div>
+            </div>
+                `;
       document.querySelector('.results').appendChild(card)
 
         })
@@ -135,20 +143,36 @@ function forecastWeather(lat, lon, city, state){
             var dateAlphabetic = sunriseDate.toLocaleDateString("en-US", { weekday: "long" });
             var time = sunriseDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
             var formattedDate = `${month}/${dateNumeric}/${yearNumeric} (${dateAlphabetic})`;
-            
+            var capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
             var iconCode = forecast.weather[0].icon;
             var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`
 
             var card = document.createElement('div');
-                card.classList.add('card');
-                card.innerHTML = `
-                    <div class="card-body bg-info bg-gradient">
-                    <img src="${iconURL}"/>
-                    <h3 class="card-make">${city}, ${state}, Date: ${formattedDate}</h3>
-                    <h4 class="card-subtitle mb-2 text-body-secondary">Temperature: ${forecast.main.temp}°F, Weather: ${forecast.weather[0].description}, Wind Speed: ${forecast.wind.speed} mph</h4>
-                    <p class="card-text">Humidity: ${forecast.main.humidity}%, Time: ${time}</p>
+                card.classList.add('row');
+                card.classList.add('col-sm-6')
+                card.innerHTML =
+                    `<div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-body bg-info bg-gradient">
+                        <h5 class="card-title">${capitalizedCity}, Date: ${formattedDate}</h5>
+                        <img src="${iconURL}"/>
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item">Temperature: ${forecast.main.temp}°F</li>
+                          <li class="list-group-item">Weather: ${forecast.weather[0].description}</li>
+                          <li class="list-group-item">Wind Speed: ${forecast.wind.speed} mph</li>
+                          <li class="list-group-item">Humidity: ${forecast.main.humidity}%</li>
+                          <li class="list-group-item">Time: ${time}</li>
+                        </ul>
+                      </div>
                     </div>
-                    `;
+                        `
+                    // ` this was my original format, decided to change to a cleaner look
+                    // <div class="card-body bg-info bg-gradient">
+                    // <img src="${iconURL}"/>
+                    // <h3 class="card-make">${city}, ${state}, Date: ${formattedDate}</h3>
+                    // <h4 class="card-subtitle mb-2 text-body-secondary">Temperature: ${forecast.main.temp}°F, Weather: ${forecast.weather[0].description}, Wind Speed: ${forecast.wind.speed} mph, Humidity: ${forecast.main.humidity}%, Time: ${time}</h4>
+                    // </div>
+                    // `;
       document.querySelector('.results').appendChild(card)
             
         })

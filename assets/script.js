@@ -3,14 +3,17 @@
 
 
 var OneDayBtn = document.getElementById('oneDayBtn')
+var SevenDayBtn = document.getElementById('sevenDayBtn')
 var keyID = '981956ed2a49c2865efe01126aa10ec2'
 var lat;
 var lon;
 
 
+loadCityHistory()
 
 
 function getGeoCode1(){
+    
     var city = document.getElementById('city-code').value;
     var state = document.getElementById('state-code').value;
     var country = document.getElementById('country-code').value;
@@ -26,6 +29,7 @@ function getGeoCode1(){
         lon = data[0].lon
         console.log(lat, lon, city, state)
         dailyWeather(lat, lon, city, state)
+        dailyAddCityToLocalStorage()
     })
 }
 function dailyWeather(lat, lon, city, state){
@@ -50,6 +54,8 @@ function dailyWeather(lat, lon, city, state){
         var dateNumeric = sunriseDate.toLocaleDateString("en-US", { day: "numeric" });
         var yearNumeric = sunriseDate.toLocaleDateString("en-US", { year: "numeric" });
         var dateAlphabetic = sunriseDate.toLocaleDateString("en-US", { weekday: "long" });
+        var iconCode = data.weather[0].icon;
+        var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`
 
         var formattedDate = `${month}/${dateNumeric}/${yearNumeric} (${dateAlphabetic})`;
         
@@ -58,20 +64,20 @@ function dailyWeather(lat, lon, city, state){
         console.log(data.weather[0].icon); // Check the value of data.weather[0].icon
 
 
-        var iconUrl = `http://openweathermap.org/img/w/${data.weather[0].Icon}.png`
-                console.log(iconUrl)
+        var iconURL = `http://openweathermap.org/img/w/${iconCode}.png`
+                
             var card = document.createElement('div');
                 card.classList.add('card');
                 card.innerHTML = `
                     <div class="card-body bg-info bg-gradient">
-                     <img src="${iconUrl}"/>
+                     <img src="${iconURL}"/>
                     <h3 class="card-make">${city}, ${state}, Date: ${formattedDate}</h3>
                     <h4 class="card-subtitle mb-2 text-body-secondary">Temperature: ${data.main.temp}°F, Weather: ${data.weather[0].description}, Wind Speed: ${data.wind.speed} mph</h4>
                     <p class="card-text">Humidity: ${data.main.humidity}%</p>
                     </div>
                     `;
       document.querySelector('.results').appendChild(card)
-            
+
         })
 }
 function getGeoCode7(){
@@ -79,6 +85,7 @@ function getGeoCode7(){
     var state = document.getElementById('state-code').value;
     var country = document.getElementById('country-code').value;
     var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&cnt=7&appid=${keyID}`
+    
     
     fetch(geoURL)
     .then(function(response){
@@ -90,11 +97,12 @@ function getGeoCode7(){
         lon = data[0].lon
         console.log(lat, lon, city, state)
         forecastWeather(lat, lon, city, state)
+        forecastAddCityToLocalStorage()
     })
 }
 function forecastWeather(lat, lon, city, state){
-    var forecastURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&cnt=7&appid=${keyID}&units=imperial`
-    // console.log(dailyURL)
+    var forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=40&appid=${keyID}&units=imperial`
+    // console.log(forecastURL)
     $(".results").empty();
     fetch(forecastURL)
         .then(function(resp){
@@ -102,27 +110,43 @@ function forecastWeather(lat, lon, city, state){
         })
         .then(function(data){
             var forecastList = data.list
-                forecastList.forEach(function(forecast){
-       
-        var sunriseTimestamp = forecast.sys.sunrise;
-        var sunriseDate = new Date(sunriseTimestamp * 1000);
-        var month = sunriseDate.toLocaleDateString("en-US", { month: "numeric" });
-        var dateNumeric = sunriseDate.toLocaleDateString("en-US", { day: "numeric" });
-        var yearNumeric = sunriseDate.toLocaleDateString("en-US", { year: "numeric" });
-        var dateAlphabetic = sunriseDate.toLocaleDateString("en-US", { weekday: "long" });
 
-        var formattedDate = `${month}/${dateNumeric}/${yearNumeric} (${dateAlphabetic})`;
+            var filteredForecastList = forecastList.filter(function(forecast) {
+                // Specify the desired hour blocks (e.g., 12:00 PM, 3:00 PM, 6:00 PM)
+                var desiredHours = ["15:00:00", "18:00:00"];
         
-        var iconCode = forecast.weather[0].icon;
+                // Get the time from the forecast object
+                var time = forecast.dt_txt.split(" ")[1];
+        
+                // Check if the time matches any of the desired hours
+                return desiredHours.includes(time);
+              });
+
+
+
+        filteredForecastList.forEach(function(forecast){
+       
+            var sunriseTimestamp = forecast.dt;
+            console.log(forecast)
+            var sunriseDate = new Date(sunriseTimestamp * 1000);
+            var month = sunriseDate.toLocaleDateString("en-US", { month: "numeric" });
+            var dateNumeric = sunriseDate.toLocaleDateString("en-US", { day: "numeric" });
+            var yearNumeric = sunriseDate.toLocaleDateString("en-US", { year: "numeric" });
+            var dateAlphabetic = sunriseDate.toLocaleDateString("en-US", { weekday: "long" });
+            var time = sunriseDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
+            var formattedDate = `${month}/${dateNumeric}/${yearNumeric} (${dateAlphabetic})`;
+            
+            var iconCode = forecast.weather[0].icon;
+            var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`
 
             var card = document.createElement('div');
                 card.classList.add('card');
                 card.innerHTML = `
                     <div class="card-body bg-info bg-gradient">
-                    <i class="wi wi-owm-${iconCode}"></i>
+                    <img src="${iconURL}"/>
                     <h3 class="card-make">${city}, ${state}, Date: ${formattedDate}</h3>
                     <h4 class="card-subtitle mb-2 text-body-secondary">Temperature: ${forecast.main.temp}°F, Weather: ${forecast.weather[0].description}, Wind Speed: ${forecast.wind.speed} mph</h4>
-                    <p class="card-text">Humidity: ${forecast.main.humidity}%</p>
+                    <p class="card-text">Humidity: ${forecast.main.humidity}%, Time: ${time}</p>
                     </div>
                     `;
       document.querySelector('.results').appendChild(card)
@@ -131,6 +155,96 @@ function forecastWeather(lat, lon, city, state){
     })
 }
 
+function dailyAddCityToLocalStorage() {
+    //Gets the use input which should be a city name
+    var userInput = document.getElementById('city-code').value
+    //Gets the list of previously searched cities from local storage or an empty array if it doesn't exist
+    var dailycities = JSON.parse(localStorage.getItem('cities') || '[]')
+    //checks if a searched city is already in the list
+    if (!dailycities.includes(userInput)) {
+        //Will push the new city to the list
+        dailycities.push(userInput)
+        //Updates local storage with the new list of cities
+        localStorage.setItem('cities', JSON.stringify(dailycities))
+        //Calls display city which will add the new city in the form of buttons to the form element
+        dailyDisplayCity(userInput)
+    }
+}
+//Displays the city as buttons with the passed in userInput
+function dailyDisplayCity(cityName) {
+    //Gets the container that will hold the list of searched cities
+    var cityHistory = document.getElementById('city-history')
+    //Creates a button 
+    var cityHistBtn = document.createElement("button")
+    //Button gets a Bootstrap class of btn and btn-secondary to style it 
+    cityHistBtn.className = "btn btn-outline-dark bg-warning p-1 m-1"
+    //Sets the text of the button to the user city input
+    cityHistBtn.innerText = cityName.charAt(0).toUpperCase() + cityName.slice(1)
+    //Add an event listener to the button container 
+    cityHistBtn.addEventListener('click', function() {
+        //Sets our input value to the value of the button clicked inner text
+        document.getElementById('city-code').value = cityName
+        document.getElementById('state-code').value = ''
+        document.getElementById('country-code').value = ''
+        //Used so the user doesnt have to manually click search button after they click a city button
+        OneDayBtn.click()
+    })
+    //Adds created button to the container
+    cityHistory.appendChild(cityHistBtn)
+}
+function forecastAddCityToLocalStorage() {
+    //Gets the use input which should be a city name
+    var userInput = document.getElementById('city-code').value
+    //Gets the list of previously searched cities from local storage or an empty array if it doesn't exist
+    var forecastcities = JSON.parse(localStorage.getItem('forecast') || '[]')
+    //checks if a searched city is already in the list
+    if (!forecastcities.includes(userInput)) {
+        //Will push the new city to the list
+        forecastcities.push(userInput)
+        //Updates local storage with the new list of cities
+        localStorage.setItem('forecast', JSON.stringify(forecastcities))
+        //Calls display city which will add the new city in the form of buttons to the form element
+        forecastDisplayCity(userInput)
+    }
+}
+function forecastDisplayCity(cityName) {
+    //Gets the container that will hold the list of searched cities
+    var cityHistory = document.getElementById('forecast-history')
+    //Creates a button 
+    var cityHistBtn = document.createElement("button")
+    //Button gets a Bootstrap class of btn and btn-secondary to style it 
+    cityHistBtn.className = "btn btn-outline-dark bg-warning p-1 m-1"
+    //Sets the text of the button to the user city input
+    cityHistBtn.innerText = cityName.charAt(0).toUpperCase() + cityName.slice(1)
+    //Add an event listener to the button container 
+    cityHistBtn.addEventListener('click', function() {
+        //Sets our input value to the value of the button clicked inner text
+        document.getElementById('city-code').value = cityName
+        document.getElementById('state-code').value = ''
+        document.getElementById('country-code').value = ''
+        //Used so the user doesnt have to manually click search button after they click a city button
+        SevenDayBtn.click()
+    })
+    //Adds created button to the container
+    cityHistory.appendChild(cityHistBtn)
+}
+
+//Load and display the list of cities previously searched by the user from local storage
+function loadCityHistory() {
+    //Gets the list of cities form local storage  or an empty array
+    var dailycities = JSON.parse(localStorage.getItem('cities') || '[]')
+    var forecastcities = JSON.parse(localStorage.getItem('forecast') || '[]')
+    //Iterates over each city in the list
+    dailycities.forEach(function(cityName) {
+        //Display the name of each city as a button in the city history section
+        dailyDisplayCity(cityName)
+    })
+    forecastcities.forEach(function(cityName) {
+        //Display the name of each city as a button in the city history section
+        forecastDisplayCity(cityName)
+    })
+}
+
 
 OneDayBtn.addEventListener('click', getGeoCode1)
-fiveDayBtn.addEventListener('click', getGeoCode7)
+SevenDayBtn.addEventListener('click', getGeoCode7)

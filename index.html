@@ -19,30 +19,40 @@
     <Header>
         <h1 class="container px-4 text-center bg-primary bg-gradient">Weather Forecast</h1>
     </Header>
-    <div class="card container text-left" style="width: 18rem;">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col" id="city-history">
+                <h2>Single day searches go here!</h2>
+            </div>
+            <div class="col" style="width: 18rem;">
+                <div class="row mb-2 justify-content-center">
+                    <label  class="col-sm-5 col-form-label ">City Name</label>
+                    <div class="col-sm-10 ">
+                        <input type="text" class="form-control" id="city-code" placeholder="City">
+                    </div>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <label  class="col-sm-5 col-form-label ">State Name</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="state-code" placeholder="State">
+                    </div>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <label  class="col-sm-5 col-form-label ">Country Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="country-code" placeholder="Country">
+                    </div>
+                </div>
             
-        <div class="row mb-2 justify-content-center">
-            <label  class="col-sm-5 col-form-label ">City Name</label>
-            <div class="col-sm-10 ">
-                <input type="text" class="form-control" id="city-code" placeholder="City">
+                <div class="button container text-center p-2">
+                    <button type="button" class="btn btn-primary btn-sm btn-outline-dark text-white" id="oneDayBtn">Todays weather</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-outline-dark text-white" id="sevenDayBtn">Five day forecast</button>
+                </div>
+            </div>
+            <div class="col" id="forecast-history">
+                <h2>5 day forecast goes here!</h2>
             </div>
         </div>
-        <div class="row mb-2 justify-content-center">
-            <label  class="col-sm-5 col-form-label ">State Name</label>
-            <div class="col-sm-10">
-            <input type="text" class="form-control" id="state-code" placeholder="State">
-            </div>
-        </div>
-        <div class="row mb-2 justify-content-center">
-            <label  class="col-sm-5 col-form-label ">Country Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="country-code" placeholder="Country">
-            </div>
-        </div>
-    </div>
-    <div class="button container text-center p-2">
-        <button type="button" class="btn btn-primary btn-sm" id="oneDayBtn">Todays weather</button>
-        <button type="button" class="btn btn-primary btn-sm" id="fiveDayBtn">Five day forecast</button>
     </div>
     <section class="results"></section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
